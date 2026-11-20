@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "vivid3d": {
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy", "Bypass",
+        "-File", "${CLAUDE_PLUGIN_ROOT}/bin/vivid-mcp-proxy.ps1"
+      ]
+    }
+  }
+}

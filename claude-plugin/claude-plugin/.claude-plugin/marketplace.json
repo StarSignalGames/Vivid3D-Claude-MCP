@@ -1,0 +1,12 @@
+{
+  "name": "vivid3d-local",
+  "owner": { "name": "Vivid3D" },
+  "metadata": { "description": "Local Vivid3D plugins for Claude." },
+  "plugins": [
+    {
+      "name": "vivid3d",
+      "source": "./vivid3d",
+      "description": "Claude connection to a running Vivid3D editor (MCP bridge + engine knowledge skill)."
+    }
+  ]
+}
