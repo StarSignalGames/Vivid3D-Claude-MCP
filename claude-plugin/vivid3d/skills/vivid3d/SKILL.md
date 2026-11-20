@@ -16,6 +16,8 @@ You are connected to ONE persistent Vivid3D editor process (like Blender with it
 6. **Stop play before editing.** Edits during play are discarded; the tools refuse them.
 7. Read `console` after anything that might fail (script compile, scene load, settings). It includes script `Console.WriteLine`/`Log` output.
 8. The user sees an **activity overlay at the bottom-left of the editor** listing your running command and the last few (it fades about 20 s after you stop). It never appears in your own `screenshot`s. Keep calls purposeful: every call is visible to them.
+9. **Read every result's first line.** Each tool result starts with `[OK] <tool> succeeded in N ms.` or `[FAILED] <tool> failed ...` with the reason and "Try another way" alternatives. After `[FAILED]`: do NOT repeat the same call and do not give up. Apply one of the suggested alternatives (another tool, corrected arguments after a read tool such as `scene_summary`/`node_detail`/`ui_tree`, `exec_csharp`, or editing the data file directly), verify the outcome, and only after two different approaches have failed tell the user what you tried and what you saw. A failed call may have partly changed things: check with a read tool before retrying a mutation.
+10. **JSON assets are edited as files.** Cinematics (.cine), events (.event), conversations (.conv), UI layouts (.ui), blend spaces and particle FX are JSON: write/edit the file with your file tools using `asset_template`/`asset_schema`, check it with `asset_validate`, then use it (see [data-assets.md](references/data-assets.md)). Do not recreate them by clicking through editor windows.
 
 ## Starting the editor
 The editor is started by the user. If tools fail with "not reachable" (or `ping` fails):
@@ -32,6 +34,7 @@ The editor is started by the user. If tools fail with "not reachable" (or `ping`
 - **Scene/play:** `scene_io` (save/load/new), `play` (start/stop/pause/resume/status).
 - **Settings (all of Tools > Settings):** `settings_pages`, `settings_get`, `settings_set`, `settings_apply_preset`.
 - **Project files (Content Browser data):** `content_tree` (browse folders level by level with counts/types), `content_search` (wildcards `*` `**` `?`, `|` for several patterns, filter by `type` and `path`, optional `text` grep inside scripts/json/events).
+- **JSON data assets (.cine/.event/.conv/.ui/...):** `asset_types`, `asset_template` (correct default JSON), `asset_schema` (exact structure + enum numbers), `asset_validate` (syntax, structure, loader, missing references; `fixBom`), `asset_preview` (render a .ui to PNG), `ui_controls` (valid control classes), `run_event` (start an .event), `cinematic_frames` (scrub a .cine and screenshot every 0.5 s: see the **cinematic-checks** skill, offer it to the user after creating/editing a cinematic).
 - **Project scripts:** `list_scripts` (what script classes exist and what kind), `attach_script` (puts a script where its type belongs: GameNode -> new scene node; NodeInteraction/NodeLogic/GameComponent -> onto a node), `detach_script`, `invoke_interaction` (fire Clicked/Used/Entered/Left to test), `set_property` with `interaction`/`logic`/`component` to tune attached scripts, `recompile_scripts`, `script_status`.
 - **Code snippets:** `exec_csharp` (run C# in the editor when no tool fits).
 - **UI input (like a user):** `click`, `mouse_move`, `drag`, `scroll`, `key`, `type_text`. Prefer dedicated tools; use input only for things no tool covers. `click` accepts a control id, name, type, window title or visible label text.
@@ -52,6 +55,7 @@ Y is up. A node's forward is -Z. Rotations are Euler **degrees** (`rotation`/`eu
 - [environment-and-weather.md](references/environment-and-weather.md): sky, HDR/IBL, time of day, clouds, rain.
 - [raytracing-and-quality.md](references/raytracing-and-quality.md): ray tracing setups, quality/performance, upscaling, MSAA, culling.
 - [settings.md](references/settings.md): the full Tools > Settings map (pages, where each thing lives, persistence).
+- [data-assets.md](references/data-assets.md): **JSON assets (.cine .event .conv .ui ...)**: the file-first workflow, per-format rules and gotchas (enum numbers, case, BOM), how to apply each asset in a scene. Read this before creating any cinematic, event, conversation or UI layout.
 - [scripting-overview.md](references/scripting-overview.md): **writing project C# scripts**: which base class becomes a scene node vs attaches to a node (GameNode / GameComponent / NodeInteraction / NodeLogic), workflow, compile rules, inspector properties.
 - [node-interactions.md](references/node-interactions.md): **NodeInteraction in depth** (Clicked/Used/Entered/Left/UpdateInteraction, node flags, aiming, trigger volumes, patterns, gotchas, test recipe). Read this before writing any door/button/pickup/trigger.
 - [script-templates.md](references/script-templates.md): tested copy-paste templates for every script kind.

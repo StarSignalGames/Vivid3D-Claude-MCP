@@ -13,6 +13,8 @@
 | capsule | `radius` (0.3), `height` (1) |
 | pyramid | `size` = base width (1), `height` (1) |
 
+**Sizes are stored as the node's scale.** A scene file saves a primitive only as its type + transform, and the engine rebuilds the mesh at its DEFAULT size whenever a scene is loaded or play stops. `create_node` therefore bakes `size`/`radius`/`height` into `LocalScale` (cube edge 1, sphere radius 0.5, plane edge 1, torus 0.8/0.2, capsule radius 0.3 + cylinder 1.0, pyramid 1x1 are the base meshes) and an explicit `scale` multiplies that. If you build primitives any other way (e.g. `exec_csharp` with `PrefabGen.CreateSphere(2f)`), set the node scale instead of mesh parameters, or the size is lost on reload. Mesh detail (`segments`) cannot be changed.
+
 Also: `position` [x,y,z], `rotation` Euler degrees, `scale` [x,y,z], `name`, `parent`. A new node is selected. Without `position`, primitives spawn in front of the editor camera projected to the ground (y = 0); with `position` the exact value is used.
 
 Mesh bounds are about the pivot at the mesh center (a default sphere of radius 2 centered at y=0 spans y -2..2). To rest something on the floor use `place_on_ground` (default mode `bounds`: the bottom of the mesh bounds goes to `groundY`, default 0).

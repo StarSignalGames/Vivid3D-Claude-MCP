@@ -16,6 +16,9 @@
 - `set_property` handles any editor-visible simple property on a node or on one of its components (`component` = type name, e.g. `GameLight3D`). Use `node_detail` to learn the names.
 - Batch related changes in one call where a tool supports it (`settings_set.values`, `align_nodes.nodes`) to keep the editor responsive.
 
+## Reading results and retrying
+Every tool result begins with `[OK] ...` or `[FAILED] ...`. On `[FAILED]` the next lines give the reason and "Try another way" alternatives chosen for that error. Work through them in order: (1) fix the arguments using a read tool (`scene_summary`, `node_detail`, `ui_tree`, `settings_get`, `content_search`), (2) switch to a different tool that reaches the same goal, (3) `exec_csharp` or editing the data file directly. Check state with a read tool before re-running a mutation (a failed call can be partly applied). Report to the user only after two different approaches failed, listing what you tried.
+
 ## When something fails
 - Tool error text is meant to be read: it names valid options (enum values, component names, pages).
 - Check `console` (filter `level:"error"`). Use `since` with the last `latestSeq` to read only new lines.

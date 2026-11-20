@@ -1,6 +1,6 @@
 {
   "name": "vivid3d",
   "description": "Drive a running Vivid3D engine editor from Claude: inspect and edit scenes, lighting, shadows, volumetrics, post-processing and every Tools > Settings page, take screenshots, run C# snippets and use the UI.",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "author": { "name": "Vivid3D" }
 }
